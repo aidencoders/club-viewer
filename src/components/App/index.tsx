@@ -1,13 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import ClubContainer from "../ClubContainer";
+import ClubDetail from "../ClubDetail";
 import Header from "../Header";
 import SearchForm from "../SearchForm";
-
-type Name = {
-  name: string;
-};
 
 export type ClubInfo = {
   club?: {
@@ -18,12 +15,13 @@ export type ClubInfo = {
     place?: string;
     type?: string;
   };
-  leaders?: Name[];
-  partners?: Name[];
+  leaders?: string[];
+  partners?: string[];
 };
 
 function App() {
   const [clubs, setClubs] = useState<ClubInfo[]>([]);
+  const [selectedClub, setSelectedClub] = useState();
 
   useEffect(() => {
     const getClubData = async () => {
@@ -42,16 +40,27 @@ function App() {
     getClubData();
   }, []);
 
+  function handleClubClick(club: any) {
+    setSelectedClub(club);
+    console.log(club);
+    console.log(selectedClub);
+  }
+
   return (
     <>
       <Header />
       <SearchForm />
-      <Route path="/clubs">
-        <ClubContainer clubs={clubs} />
-      </Route>
-      <Route path="/">
-        <Redirect to="clubs" />
-      </Route>
+      <Switch>
+        <Route exact path="/clubs">
+          <ClubContainer clubs={clubs} onClick={handleClubClick} />
+        </Route>
+        <Route exact path="/clubs/:clubId">
+          <ClubDetail club={selectedClub} />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="clubs" />
+        </Route>
+      </Switch>
     </>
   );
 }

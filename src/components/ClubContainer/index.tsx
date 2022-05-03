@@ -1,6 +1,7 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { nanoid } from "nanoid";
-import { ClubInfo } from "../App";
+import { Link, useLocation } from "react-router-dom";
 import Club from "../Club";
 
 const Wrapper = styled.section`
@@ -10,22 +11,30 @@ const Wrapper = styled.section`
   grid-gap: 1em;
 `;
 
-type Props = {
-  clubs: ClubInfo[];
-};
+function ClubContainer({ clubs, onClick }: any) {
+  const location = useLocation();
 
-function ClubContainer({ clubs }: Props) {
   return (
     <Wrapper>
       {clubs &&
-        clubs.map((club) => {
+        clubs.map((club: any) => {
+          const key = club.club?.id;
           return (
-            <Club
-              key={nanoid()}
-              {...club}
-              {...club.leaders}
-              {...club.partners}
-            />
+            <Link
+              key={key}
+              to={{
+                pathname: `${location.pathname}/${key}`,
+                state: { background: location },
+              }}
+            >
+              <Club
+                key={nanoid()}
+                {...club}
+                {...club.leaders}
+                {...club.partners}
+                onClick={onClick}
+              />
+            </Link>
           );
         })}
     </Wrapper>

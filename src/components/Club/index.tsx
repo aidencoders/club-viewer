@@ -1,5 +1,5 @@
+import React from "react";
 import styled from "@emotion/styled";
-import { ClubInfo } from "../App";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -45,12 +45,18 @@ const WrapperContent = styled.div`
   }
 `;
 
-function Club({ club, leaders, partners }: ClubInfo) {
-  console.log(club);
-  console.log(leaders);
-  console.log(partners);
+type Props = {
+  club: {
+    coverUrl?: string;
+    description?: string;
+    name?: string;
+  };
+  onClick: any;
+};
+
+function Club({ club, onClick }: Props) {
   return (
-    <Wrapper>
+    <Wrapper onClick={() => onClick(club)}>
       <WrapperImg>
         <Img src={club?.coverUrl} alt="club thumbnail" />
       </WrapperImg>

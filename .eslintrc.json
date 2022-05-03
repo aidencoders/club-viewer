@@ -55,7 +55,16 @@
     ],
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
-    "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }]
+    "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
+    "react/jsx-no-bind": [
+      "error",
+      {
+        "ignoreDOMComponents": true,
+        "ignoreRefs": true,
+        "allowArrowFunctions": true,
+        "allowFunctions": true
+      }
+    ]
   },
   "globals": {
     "chrome": "writable"
