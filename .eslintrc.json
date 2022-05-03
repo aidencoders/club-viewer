@@ -64,7 +64,8 @@
         "allowArrowFunctions": true,
         "allowFunctions": true
       }
-    ]
+    ],
+    "react/jsx-no-useless-fragment": "off"
   },
   "globals": {
     "chrome": "writable"

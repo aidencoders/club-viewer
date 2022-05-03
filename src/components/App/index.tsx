@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, useHistory } from "react-router-dom";
 import ClubContainer from "../ClubContainer";
 import ClubDetail from "../ClubDetail";
 import Header from "../Header";
+import Modal from "../Modal";
 import SearchForm from "../SearchForm";
 
 export type ClubInfo = {
@@ -22,6 +23,8 @@ export type ClubInfo = {
 function App() {
   const [clubs, setClubs] = useState<ClubInfo[]>([]);
   const [selectedClub, setSelectedClub] = useState();
+  const [isShowModal, setIsShowModal] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const getClubData = async () => {
@@ -42,25 +45,29 @@ function App() {
 
   function handleClubClick(club: any) {
     setSelectedClub(club);
-    console.log(club);
-    console.log(selectedClub);
+    setIsShowModal(true);
+  }
+
+  function handleModalClose() {
+    setIsShowModal(!isShowModal);
+    history.push("/clubs");
   }
 
   return (
     <>
       <Header />
       <SearchForm />
-      <Switch>
-        <Route exact path="/clubs">
-          <ClubContainer clubs={clubs} onClick={handleClubClick} />
-        </Route>
-        <Route exact path="/clubs/:clubId">
+      <Route path="/clubs">
+        <ClubContainer clubs={clubs} onClick={handleClubClick} />
+      </Route>
+      <Route path="/clubs/:clubId">
+        <Modal opened={isShowModal} onClick={handleModalClose}>
           <ClubDetail club={selectedClub} />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="clubs" />
-        </Route>
-      </Switch>
+        </Modal>
+      </Route>
+      <Route path="/">
+        <Redirect to="clubs" />
+      </Route>
     </>
   );
 }
