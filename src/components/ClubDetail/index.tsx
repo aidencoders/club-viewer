@@ -14,7 +14,6 @@ const Wrapper = styled.div`
 `;
 
 function ClubDetail({ club }: any) {
-  console.log(club);
   return (
     <Wrapper>
       <img src={club.coverUrl} alt="coverUrl" />

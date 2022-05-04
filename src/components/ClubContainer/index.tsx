@@ -1,7 +1,7 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { nanoid } from "nanoid";
 import { Link, useLocation } from "react-router-dom";
+
 import Club from "../Club";
 
 const Wrapper = styled.section`
